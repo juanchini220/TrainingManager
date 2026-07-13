@@ -1,19 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainingManager.Application.Services;
 
 namespace TrainingManager.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+
 public class TrainingsController : ControllerBase
 {
+    private readonly TrainingService _trainingService;
+
+    public TrainingsController(TrainingService trainingService)
+    {
+        _trainingService = trainingService;
+    }
+
     [HttpGet]
     public IActionResult Get()
     {
-        var trainings = new[]
-        {
-            new { Id = 1, Name = "Push Day" },
-            new { Id = 2, Name = "Pull Day" }
-        };
+        var trainings = _trainingService.GetTrainings();
 
         return Ok(trainings);
     }
